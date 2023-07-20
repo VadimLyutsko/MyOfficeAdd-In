@@ -3,7 +3,6 @@ import { DefaultButton } from "@fluentui/react";
 import Header from "./Header";
 import HeroList, { HeroListItem } from "./HeroList";
 import Progress from "./Progress";
-
 /* global Word, require */
 
 export interface AppProps {
@@ -52,27 +51,66 @@ export default class App extends React.Component<AppProps, AppState> {
       const paragraph = context.document.body.insertParagraph("My new paragraph width my text. Lyutsko", Word.InsertLocation.start);
 
       // change the paragraph color to blue.
-      // paragraph.font.color = "green";
+      paragraph.font.color = "black";
 
       await context.sync();
     });
   };
 
   ApplyStyleClick = async () => {
-    return Word.run(async (context) => {
-      /**
-       * Insert your Word code here
-       */
 
-          // insert a paragraph at the end of the document.
-      const paragraph = context.document.body.insertParagraph("My new paragraph width my text. Lyutsko", Word.InsertLocation.start);
+    // document.getElementById("apply-style").onclick = () => tryCatch(applyStyle);
 
-      // change the paragraph color to blue.
-      // paragraph.font.color = "green";
+
+    await Word.run(async (context) => {
+
+      // TODO1: Queue commands to style text.
+      const firstParagraph = context.document.body.paragraphs.getFirst();
+      firstParagraph.style = 'Выделенная цитата';
 
       await context.sync();
     });
-  };
+  }
+
+  ApplyCustomStyleClick= async () => {
+
+    // document.getElementById("apply-style").onclick = () => tryCatch(applyStyle);
+
+
+    await Word.run(async (context) => {
+
+      // TODO1: Queue commands to apply the custom style.
+      const lastParagraph = context.document.body.paragraphs.getLast();
+      lastParagraph.style = "MyCustomStyle";
+
+      await context.sync();
+    });
+  }
+
+  ChangeFontClick= async () => {
+
+    // document.getElementById("apply-style").onclick = () => tryCatch(applyStyle);
+
+
+    await Word.run(async (context) => {
+
+
+      // TODO1: Queue commands to apply a different font.
+      const secondParagraph = context.document.body.paragraphs.getFirst().getNext();
+      secondParagraph.font.set({
+        name: "Courier New",
+        bold: true,
+        size: 24,
+        color:'yellow'
+      });
+
+      await context.sync();
+    });
+  }
+
+
+
+
 
   render() {
     const { title, isOfficeInitialized } = this.props;
@@ -105,6 +143,21 @@ export default class App extends React.Component<AppProps, AppState> {
           <DefaultButton className="ms-welcome__action" iconProps={{ iconName: "ChevronRight" }} onClick={this.ApplyStyleClick}>
             Apply Style
           </DefaultButton>
+
+          <p className="ms-font-l">
+            Click  <b>Apply Custom Style</b> to insert it
+          </p>
+          <DefaultButton className="ms-welcome__action" iconProps={{ iconName: "ChevronRight" }} onClick={this.ApplyCustomStyleClick}>
+            Apply Custom Style
+          </DefaultButton>
+
+          <p className="ms-font-l">
+            Click  <b>Change Font</b> to insert it
+          </p>
+          <DefaultButton className="ms-welcome__action" iconProps={{ iconName: "ChevronRight" }} onClick={this.ChangeFontClick}>
+            Change Font
+          </DefaultButton>
+
         </HeroList>
       </div>
     );
