@@ -28,31 +28,47 @@ export default class App extends React.Component<AppProps, AppState> {
       listItems: [
         {
           icon: "Ribbon",
-          primaryText: "Achieve more with Office integration",
+          primaryText: "My primaries",
         },
-        {
-          icon: "Unlock",
-          primaryText: "Unlock features and functionality",
-        },
-        {
-          icon: "Design",
-          primaryText: "Create and visualize like a pro",
-        },
+        // {
+        //   icon: "Unlock",
+        //   primaryText: "Unlock features and functionality",
+        // },
+        // {
+        //   icon: "Design",
+        //   primaryText: "Create and visualize like a pro",
+        // },
       ],
     });
   }
 
-  click = async () => {
+  InsertParagraphClick = async () => {
     return Word.run(async (context) => {
       /**
        * Insert your Word code here
        */
 
       // insert a paragraph at the end of the document.
-      const paragraph = context.document.body.insertParagraph("Hello World", Word.InsertLocation.end);
+      const paragraph = context.document.body.insertParagraph("My new paragraph width my text. Lyutsko", Word.InsertLocation.start);
 
       // change the paragraph color to blue.
-      paragraph.font.color = "blue";
+      // paragraph.font.color = "green";
+
+      await context.sync();
+    });
+  };
+
+  ApplyStyleClick = async () => {
+    return Word.run(async (context) => {
+      /**
+       * Insert your Word code here
+       */
+
+          // insert a paragraph at the end of the document.
+      const paragraph = context.document.body.insertParagraph("My new paragraph width my text. Lyutsko", Word.InsertLocation.start);
+
+      // change the paragraph color to blue.
+      // paragraph.font.color = "green";
 
       await context.sync();
     });
@@ -73,13 +89,21 @@ export default class App extends React.Component<AppProps, AppState> {
 
     return (
       <div className="ms-welcome">
-        <Header logo={require("./../../../assets/logo-filled.png")} title={this.props.title} message="Welcome" />
-        <HeroList message="Discover what Office Add-ins can do for you today!" items={this.state.listItems}>
+        <Header logo={require("./../../../assets/logo-filled.png")} title={this.props.title} message="Hello Y" />
+        <HeroList message="Discover what Office Add-ins can do!" items={this.state.listItems}>
+
           <p className="ms-font-l">
-            Modify the source files, then click <b>Run</b>.
+            Click  <b>Insert Paragraph</b> to insert it
           </p>
-          <DefaultButton className="ms-welcome__action" iconProps={{ iconName: "ChevronRight" }} onClick={this.click}>
-            Run
+          <DefaultButton className="ms-welcome__action" iconProps={{ iconName: "ChevronRight" }} onClick={this.InsertParagraphClick}>
+            Insert Paragraph
+          </DefaultButton>
+
+          <p className="ms-font-l">
+            Click  <b>Apply Style</b> to do it
+          </p>
+          <DefaultButton className="ms-welcome__action" iconProps={{ iconName: "ChevronRight" }} onClick={this.ApplyStyleClick}>
+            Apply Style
           </DefaultButton>
         </HeroList>
       </div>
