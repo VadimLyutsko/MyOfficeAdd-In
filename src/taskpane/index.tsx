@@ -4,6 +4,7 @@ import { initializeIcons } from "@fluentui/font-icons-mdl2";
 import { ThemeProvider } from "@fluentui/react";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import {MyApp} from './components/MyApp';
 
 /* global document, Office, module, require */
 
@@ -27,7 +28,7 @@ const render = (Component) => {
 /* Render application after Office initializes */
 Office.onReady(() => {
   isOfficeInitialized = true;
-  render(App);
+  render(MyApp);
 });
 
 if ((module as any).hot) {

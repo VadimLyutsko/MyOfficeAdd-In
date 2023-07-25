@@ -1,8 +1,9 @@
 import * as React from 'react';
-import {DefaultButton} from '@fluentui/react';
+import {ActionButton, DefaultButton} from '@fluentui/react';
 import Header from './Header';
 import HeroList, {HeroListItem} from './HeroList';
 import Progress from './Progress';
+import {CustomButton} from './customButton/CustomButton';
 
 /* global Word, require */
 
@@ -109,6 +110,9 @@ export default class App extends React.Component<AppProps, AppState> {
         });
     }
 
+     myOnClick  = async () => {
+
+    }
 
     render() {
         const {title, isOfficeInitialized} = this.props;
@@ -135,6 +139,9 @@ export default class App extends React.Component<AppProps, AppState> {
                                    onClick={this.InsertParagraphClick}>
                         Insert Paragraph
                     </DefaultButton>
+
+                    <CustomButton onClick={this.myOnClick} className={'CustomButtonStyle'}/>
+                    {/*<ActionButton key={5}><ActionButton/>*/}
 
                     <p className="ms-font-l">
                         Click <b>Apply Style</b> to do it

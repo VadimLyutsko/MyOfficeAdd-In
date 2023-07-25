@@ -25,6 +25,8 @@
     -webkit-flex-direction: column;
     flex-direction: column;
     align-items: center;
+     background-color: #772d2d;
+     opacity: 0.5;
  }
 
  .ms-welcome__main {
@@ -39,6 +41,8 @@
     -webkit-flex: 1 0 0;
     flex: 1 0 0;
     padding: 10px 20px;
+     background-color: #65c966;
+     opacity: 0.8;
  }
  
  .ms-welcome__main > h2 {
@@ -77,4 +81,11 @@
 
 b {
     font-weight: bold;
+}
+
+.CustomButtonStyle{
+    color: #970707;
+    cursor: pointer;
+    width: 150px;
+    font-size: 25px;
 }
