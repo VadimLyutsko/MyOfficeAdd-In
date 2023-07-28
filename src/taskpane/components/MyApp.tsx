@@ -17,8 +17,13 @@ export type AppState = {
     listItems: HeroListItem[];
 }
 
+
 // export default class MyApp extends React.F<AppProps, AppState> {
-    export const MyApp:React.FC<AppProps> = ({title,isOfficeInitialized, listItems}) => {
+export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized, listItems}) => {
+    // isOfficeInitialized=false
+    listItems = [
+
+    ]
 
     // componentDidMount() {
     //     this.setState({
@@ -111,59 +116,58 @@ export type AppState = {
     }
 
 
-        if (!isOfficeInitialized) {
-            return (
-                <Progress
-                    title={title}
-                    logo={require('./../../../assets/logo-filled.png')}
-                    message="Please sideload your addin to see app body."
-                />
-            );
-        }
-
+    if (!isOfficeInitialized) {
         return (
-            <div className="ms-welcome">
-                <Header logo={require('./../../../assets/logoMy.jpg')} title={title}
-                        message="Hello, Kirill!"/>
-                <HeroList message="Discover what Office Add-ins can do!" items={listItems}>
-
-                    <p className="ms-font-l">
-                        Click <b>Insert Paragraph</b> to insert it
-                    </p>
-                    <DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}
-                                   onClick={InsertParagraphClick}>
-                        Insert Paragraph
-                    </DefaultButton>
-
-                    <CustomButton onClick={myOnClick} className={'CustomButtonStyle'}/>
-                    {/*<ActionButton key={5}><ActionButton/>*/}
-
-                    {/*<p className="ms-font-l">*/}
-                    {/*    Click <b>Apply Style</b> to do it*/}
-                    {/*</p>*/}
-                    {/*<DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}*/}
-                    {/*               onClick={ApplyStyleClick}>*/}
-                    {/*    Apply Style*/}
-                    {/*</DefaultButton>*/}
-
-                    {/*<p className="ms-font-l">*/}
-                    {/*    Click <b>Apply Custom Style</b> to insert it*/}
-                    {/*</p>*/}
-                    {/*<DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}*/}
-                    {/*               onClick={ApplyCustomStyleClick}>*/}
-                    {/*    Apply Custom Style*/}
-                    {/*</DefaultButton>*/}
-
-                    {/*<p className="ms-font-l">*/}
-                    {/*    Click <b>Change Font</b> to insert it*/}
-                    {/*</p>*/}
-                    {/*<DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}*/}
-                    {/*               onClick={ChangeFontClick}>*/}
-                    {/*    Change Font*/}
-                    {/*</DefaultButton>*/}
-
-                </HeroList>
-            </div>
+            <Progress
+                title={title}
+                logo={require('./../../../assets/logo-filled.png')}
+                message="Please sideload your addin to see app body."
+            />
         );
+    }
+
+    return (
+        <div className="ms-welcome">
+            {/*<Header logo={require('./../../../assets/logoMy.jpg')} title={title} message="Hello, Kirill!"/>*/}
+            <HeroList message="Self-made Office add-in" items={listItems}>
+
+                <p className="ms-font-l">
+                    Click <b>Insert Paragraph</b> to insert it
+                </p>
+                <DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}
+                               onClick={InsertParagraphClick}>
+                    Insert Paragraph
+                </DefaultButton>
+
+                {/*<CustomButton onClick={myOnClick} className={'CustomButtonStyle'}/>*/}
+                {/*<ActionButton key={5}><ActionButton/>*/}
+
+                {/*<p className="ms-font-l">*/}
+                {/*    Click <b>Apply Style</b> to do it*/}
+                {/*</p>*/}
+                {/*<DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}*/}
+                {/*               onClick={ApplyStyleClick}>*/}
+                {/*    Apply Style*/}
+                {/*</DefaultButton>*/}
+
+                {/*<p className="ms-font-l">*/}
+                {/*    Click <b>Apply Custom Style</b> to insert it*/}
+                {/*</p>*/}
+                {/*<DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}*/}
+                {/*               onClick={ApplyCustomStyleClick}>*/}
+                {/*    Apply Custom Style*/}
+                {/*</DefaultButton>*/}
+
+                {/*<p className="ms-font-l">*/}
+                {/*    Click <b>Change Font</b> to insert it*/}
+                {/*</p>*/}
+                {/*<DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}*/}
+                {/*               onClick={ChangeFontClick}>*/}
+                {/*    Change Font*/}
+                {/*</DefaultButton>*/}
+
+            </HeroList>
+        </div>
+    );
 
 }

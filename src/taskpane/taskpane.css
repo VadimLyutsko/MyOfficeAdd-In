@@ -25,7 +25,7 @@
     -webkit-flex-direction: column;
     flex-direction: column;
     align-items: center;
-     background-color: #772d2d;
+     background-color: #a48a8a;
      opacity: 0.5;
  }
 
@@ -41,8 +41,7 @@
     -webkit-flex: 1 0 0;
     flex: 1 0 0;
     padding: 10px 20px;
-     background-color: #65c966;
-     opacity: 0.8;
+     background-color: #d9d5af;
  }
  
  .ms-welcome__main > h2 {
