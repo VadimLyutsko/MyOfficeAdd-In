@@ -1,12 +1,11 @@
 import * as React from 'react';
-import {ActionButton, DefaultButton} from '@fluentui/react';
-import Header from '../taskpane/components/Header';
+import {DefaultButton} from '@fluentui/react';
 import HeroList, {HeroListItem} from '../taskpane/components/HeroList';
 import Progress from '../taskpane/components/Progress';
-import {CustomButton} from '../taskpane/components/customButton/CustomButton';
 import {useAppDispatch, useAppSelector} from './store';
-import {state} from 'office-addin-dev-certs/lib/defaults';
 import {setHeroListPayloadAC} from '../heroList-reducer';
+import context = Office.context;
+import {setRequestPayloadAC} from '../request-reducer';
 
 /* global Word, require */
 
@@ -16,35 +15,12 @@ export type AppProps = {
     listItems: HeroListItem[];
 }
 
-// export type AppState = {
-//     listItems: HeroListItem[];
-// }
 
-
-// export default class MyApp extends React.F<AppProps, AppState> {
 export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
-    // isOfficeInitialized=false
     const dispatch = useAppDispatch()
-    const listItems = useAppSelector(state=>state.heroList.listItems)
+    const listItems = useAppSelector(state => state.heroList.listItems)
+    const requestData = useAppSelector(state => state.request.requestData)
 
-    // componentDidMount() {
-    //     this.setState({
-    //      const   listItems = [
-    //             {
-    //                 icon: 'Ribbon',
-    //                 primaryText: 'My primaries',
-    //             },
-    //             {
-    //               icon: "Unlock",
-    //               primaryText: "Unlock features and functionality",
-    //             },
-    //             {
-    //               icon: "Design",
-    //               primaryText: "Create and visualize like a pro",
-    //             },
-    //         ]
-    //     });
-    // }
 
     const InsertParagraphClick = async () => {
         return Word.run(async (context) => {
@@ -62,59 +38,38 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
         });
     };
 
-    // ApplyStyleClick = async () => {
-    //
-    //     // document.getElementById("apply-style").onclick = () => tryCatch(applyStyle);
-    //
-    //
-    //     await Word.run(async (context) => {
-    //
-    //         // TODO1: Queue commands to style text.
-    //         const firstParagraph = context.document.body.paragraphs.getFirst();
-    //         firstParagraph.style = 'Выделенная цитата';
-    //
-    //         await context.sync();
-    //     });
-    // }
-    //
-    // ApplyCustomStyleClick = async () => {
-    //
-    //     // document.getElementById("apply-style").onclick = () => tryCatch(applyStyle);
-    //
-    //
-    //     await Word.run(async (context) => {
-    //
-    //         // TODO1: Queue commands to apply the custom style.
-    //         const lastParagraph = context.document.body.paragraphs.getLast();
-    //         lastParagraph.style = 'MyCustomStyle';
-    //
-    //         await context.sync();
-    //     });
-    // }
-    //
-    // ChangeFontClick = async () => {
-    //
-    //     // document.getElementById("apply-style").onclick = () => tryCatch(applyStyle);
-    //
-    //
-    //     await Word.run(async (context) => {
-    //
-    //
-    //         // TODO1: Queue commands to apply a different font.
-    //         const secondParagraph = context.document.body.paragraphs.getFirst().getNext();
-    //         secondParagraph.font.set({
-    //             name: 'Courier New',
-    //             bold: true,
-    //             size: 24,
-    //             color: 'yellow'
-    //         });
-    //
-    //         await context.sync();
-    //     });
-    // }
 
-    const myOnClick = async () => {
+    const requestClickHandler = async () => {
+        return Word.run(async (context) => {
+// Ниже я выхватываю выделенные в тексте слова
+            Office.context.document.getSelectedDataAsync(Office.CoercionType.Text, function (asyncResult) {
+                if (asyncResult.status == Office.AsyncResultStatus.Failed) {
+                    write('Action failed. Error: ' + asyncResult.error.message);
+                } else {
+                    if (typeof asyncResult.value === 'string') {
 
+                        dispatch(setRequestPayloadAC(asyncResult.value))
+                    }
+                    // Здесь я их запоминаю
+                    write(
+                        asyncResult.value);
+                }
+            });
+
+//Ниже я вставляю их в нужное мне место в надстройке по Id
+            function write(message) {
+                document.getElementById('message').innerText += message;
+            }
+
+            // Беру уже задиспатченный текст из стейта (который до этого был выделен в ворде и вставляю).
+            const paragraph = context.document.body.insertParagraph(requestData, Word.InsertLocation.start);
+
+            // Меняю цвет, тут все ясно.
+            paragraph.font.color = 'blue';
+            dispatch(setHeroListPayloadAC())
+            await context.sync();
+
+        });
     }
 
 
@@ -122,7 +77,7 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
         return (
             <Progress
                 title={title}
-                logo={require('../../assets/logo-filled.png')}
+                logo={require('../../assets/logoMy.jpg')}
                 message="Please sideload your addin to see app body."
             />
         );
@@ -143,7 +98,17 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
                     Insert Paragraph
                 </DefaultButton>
 
+                <p className="ms-font-l">
+                    Нажми <b>ухваить</b> чтобы выхватить текст из документа
+                </p>
+
+                <DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}
+                               onClick={requestClickHandler}>
+                    Ухваить
+                </DefaultButton>
+
             </HeroList>
+            <div id={'message'}></div>
 
         </div>
     );

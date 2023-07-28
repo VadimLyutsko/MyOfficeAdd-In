@@ -2,12 +2,14 @@ import {AnyAction, applyMiddleware, combineReducers, legacy_createStore} from 'r
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import thunkMiddleware, {ThunkDispatch} from 'redux-thunk'
 import {heroListReducer} from '../heroList-reducer';
+import {requestReducer} from '../request-reducer';
 
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
 const rootReducer = combineReducers({
     heroList: heroListReducer,
+    request:requestReducer
 
 })
 // непосредственно создаём store

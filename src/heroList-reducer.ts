@@ -23,8 +23,8 @@ export const heroListReducer = (state: InitialStateType = initialState, action: 
             return state
     }
 }
-// actions
 
+// actions
 export const setHeroListPayloadAC = () =>
     ({type: 'heroList/SET-HEROLIST-PAYLOAD'} as const)
 
@@ -92,4 +92,4 @@ export const setHeroListPayloadAC = () =>
 //     | SetAppStatusActionType
 //     | SetAppErrorActionType
 
-type ActionsType = ReturnType<typeof setHeroListPayloadAC>
+export type ActionsType = ReturnType<typeof setHeroListPayloadAC>
