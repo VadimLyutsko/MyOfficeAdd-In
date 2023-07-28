@@ -128,45 +128,21 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized, listItems
 
     return (
         <div className="ms-welcome">
+
             {/*<Header logo={require('./../../../assets/logoMy.jpg')} title={title} message="Hello, Kirill!"/>*/}
             <HeroList message="Self-made Office add-in" items={listItems}>
 
                 <p className="ms-font-l">
                     Click <b>Insert Paragraph</b> to insert it
                 </p>
+
                 <DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}
                                onClick={InsertParagraphClick}>
                     Insert Paragraph
                 </DefaultButton>
 
-                {/*<CustomButton onClick={myOnClick} className={'CustomButtonStyle'}/>*/}
-                {/*<ActionButton key={5}><ActionButton/>*/}
-
-                {/*<p className="ms-font-l">*/}
-                {/*    Click <b>Apply Style</b> to do it*/}
-                {/*</p>*/}
-                {/*<DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}*/}
-                {/*               onClick={ApplyStyleClick}>*/}
-                {/*    Apply Style*/}
-                {/*</DefaultButton>*/}
-
-                {/*<p className="ms-font-l">*/}
-                {/*    Click <b>Apply Custom Style</b> to insert it*/}
-                {/*</p>*/}
-                {/*<DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}*/}
-                {/*               onClick={ApplyCustomStyleClick}>*/}
-                {/*    Apply Custom Style*/}
-                {/*</DefaultButton>*/}
-
-                {/*<p className="ms-font-l">*/}
-                {/*    Click <b>Change Font</b> to insert it*/}
-                {/*</p>*/}
-                {/*<DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}*/}
-                {/*               onClick={ChangeFontClick}>*/}
-                {/*    Change Font*/}
-                {/*</DefaultButton>*/}
-
             </HeroList>
+
         </div>
     );
 

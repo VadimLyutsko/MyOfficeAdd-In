@@ -27,10 +27,14 @@
   },
   "dependencies": {
     "@fluentui/react": "^8.52.3",
+    "@types/react-redux": "^7.1.25",
     "core-js": "^3.9.1",
     "es6-promise": "^4.2.8",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-redux": "^8.1.1",
+    "redux": "^4.2.1",
+    "redux-thunk": "^2.4.2",
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
