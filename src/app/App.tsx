@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {ActionButton, DefaultButton} from '@fluentui/react';
-import Header from './Header';
-import HeroList, {HeroListItem} from './HeroList';
-import Progress from './Progress';
-import {CustomButton} from './customButton/CustomButton';
+import Header from '../taskpane/components/Header';
+import HeroList, {HeroListItem} from '../taskpane/components/HeroList';
+import Progress from '../taskpane/components/Progress';
+import {CustomButton} from '../taskpane/components/customButton/CustomButton';
 
 /* global Word, require */
 
@@ -121,7 +121,7 @@ export default class App extends React.Component<AppProps, AppState> {
             return (
                 <Progress
                     title={title}
-                    logo={require('./../../../assets/logo-filled.png')}
+                    logo={require('../../assets/logo-filled.png')}
                     message="Please sideload your addin to see app body."
                 />
             );
@@ -129,7 +129,7 @@ export default class App extends React.Component<AppProps, AppState> {
 
         return (
             <div className="ms-welcome">
-                <Header logo={require('./../../../assets/logoMy.jpg')} title={this.props.title} message="Hello, Kirill!"/>
+                <Header logo={require('../../assets/logoMy.jpg')} title={this.props.title} message="Hello, Kirill!"/>
                 <HeroList message="Discover what Office Add-ins can do!" items={this.state.listItems}>
 
                     <p className="ms-font-l">
