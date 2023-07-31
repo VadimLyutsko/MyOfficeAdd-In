@@ -4,8 +4,8 @@ import HeroList, {HeroListItem} from '../taskpane/components/HeroList';
 import Progress from '../taskpane/components/Progress';
 import {useAppDispatch, useAppSelector} from './store';
 import {setHeroListPayloadAC} from '../heroList-reducer';
-import context = Office.context;
 import {setRequestPayloadAC} from '../request-reducer';
+import {fetchJokeTC} from '../api/someExampleAPI-reducer';
 
 /* global Word, require */
 
@@ -20,6 +20,11 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
     const dispatch = useAppDispatch()
     const listItems = useAppSelector(state => state.heroList.listItems)
     const requestData = useAppSelector(state => state.request.requestData)
+    const catFact = useAppSelector(state => state.exampleCatData)
+
+    // useEffect(() => {
+    //     dispatch(fetchJokeTC())
+    // }, [])
 
 
     const InsertParagraphClick = async () => {
@@ -37,8 +42,6 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
             await context.sync();
         });
     };
-
-
     const requestClickHandler = async () => {
         return Word.run(async (context) => {
 // Ниже я выхватываю выделенные в тексте слова
@@ -65,13 +68,35 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
             const paragraph = context.document.body.insertParagraph(requestData, Word.InsertLocation.start);
 
             // Меняю цвет, тут все ясно.
-            paragraph.font.color = 'blue';
+            paragraph.font.color = 'green';
             dispatch(setHeroListPayloadAC())
             await context.sync();
 
         });
+
     }
 
+    const exampleClickHandler = async () => {
+        return Word.run(async (context) => {
+            /**
+             * Insert your Word code here
+             */
+
+                // insert a paragraph at the end of the document.
+            const paragraph = context.document.body.insertParagraph(catFact.fact, Word.InsertLocation.start);
+
+            // change the paragraph color to blue.
+            paragraph.font.color = 'green';
+            dispatch(setHeroListPayloadAC())
+            await context.sync();
+        });
+    };
+
+    const exampleRequest = () => {
+        // const thunk = fetchTodolistsTC()
+        // dispatch(thunk)
+        dispatch(fetchJokeTC())
+    }
 
     if (!isOfficeInitialized) {
         return (
@@ -95,7 +120,7 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
 
                 <DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}
                                onClick={InsertParagraphClick}>
-                    Insert Paragraph
+                    Проверить работу Redux
                 </DefaultButton>
 
                 <p className="ms-font-l">
@@ -107,8 +132,34 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
                     Ухваить
                 </DefaultButton>
 
+
+                <p className="ms-font-l">
+                    Нажми <b></b> чтобы послать запрос
+                </p>
+
+                <DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}
+                               onClick={exampleRequest}>
+                    exampleRequest
+                </DefaultButton>
+
+
+                <p className="ms-font-l">
+                    Нажми <b>Вставить ответ</b> чтобы вставить ответ на запрос
+                </p>
+
+                <DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}
+                               onClick={exampleClickHandler}>
+                    Вставить ответ
+                </DefaultButton>
+
             </HeroList>
-            <div id={'message'}></div>
+            <div id={'message'} style={{
+                width: '150px',
+                backgroundColor: '#d9d5af',
+                height: '100px',
+                margin: 'auto',
+                padding: '25px'
+            }}></div>
 
         </div>
     );

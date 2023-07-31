@@ -11,7 +11,7 @@ export const heroListReducer = (state: InitialStateType = initialState, action: 
                 listItems: [
                     {
                         icon: 'Ribbon',
-                        primaryText: 'React works perfectly, the state loads',
+                        primaryText: 'React работает олично, стоэйт прогружается',
                     },
                 ]
             }
