@@ -22,11 +22,6 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
     const requestData = useAppSelector(state => state.request.requestData)
     const catFact = useAppSelector(state => state.exampleCatData)
 
-    // useEffect(() => {
-    //     dispatch(fetchJokeTC())
-    // }, [])
-
-
     const InsertParagraphClick = async () => {
         return Word.run(async (context) => {
             /**
@@ -76,6 +71,14 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
 
     }
 
+
+    // При вызове диспатчим санку - делаем запрос, а ответ сохраняем в наш стейт (в Redux)
+    const exampleRequest = () => {
+        const thunk = fetchJokeTC()
+        dispatch(thunk)
+        // dispatch(fetchJokeTC())
+    }
+    // При вызове вставляем полученный ответ из нашего стейта (из Redux)
     const exampleClickHandler = async () => {
         return Word.run(async (context) => {
             /**
@@ -86,17 +89,12 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
             const paragraph = context.document.body.insertParagraph(catFact.fact, Word.InsertLocation.start);
 
             // change the paragraph color to blue.
-            paragraph.font.color = 'green';
+            paragraph.font.color = 'cadetblue';
             dispatch(setHeroListPayloadAC())
             await context.sync();
         });
     };
 
-    const exampleRequest = () => {
-        // const thunk = fetchTodolistsTC()
-        // dispatch(thunk)
-        dispatch(fetchJokeTC())
-    }
 
     if (!isOfficeInitialized) {
         return (
@@ -114,32 +112,32 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
             {/*<Header logo={require('../../assets/logoMy.jpg')} title={title} message="Hello, Kirill!"/>*/}
             <HeroList message="Self-made Office add-in" items={listItems}>
 
+                {/*<p className="ms-font-l">*/}
+                {/*    Click <b>Insert Paragraph</b> to insert it*/}
+                {/*</p>*/}
+
+                {/*<DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}*/}
+                {/*               onClick={InsertParagraphClick}>*/}
+                {/*    Проверить работу Redux*/}
+                {/*</DefaultButton>*/}
+
+                {/*<p className="ms-font-l">*/}
+                {/*    Нажми <b>ухваить</b> чтобы выхватить текст из документа*/}
+                {/*</p>*/}
+
+                {/*<DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}*/}
+                {/*               onClick={requestClickHandler}>*/}
+                {/*    Ухваить*/}
+                {/*</DefaultButton>*/}
+
+
                 <p className="ms-font-l">
-                    Click <b>Insert Paragraph</b> to insert it
-                </p>
-
-                <DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}
-                               onClick={InsertParagraphClick}>
-                    Проверить работу Redux
-                </DefaultButton>
-
-                <p className="ms-font-l">
-                    Нажми <b>ухваить</b> чтобы выхватить текст из документа
-                </p>
-
-                <DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}
-                               onClick={requestClickHandler}>
-                    Ухваить
-                </DefaultButton>
-
-
-                <p className="ms-font-l">
-                    Нажми <b></b> чтобы послать запрос
+                    Нажми <b>Запрос на сервер</b> чтобы послать запрос
                 </p>
 
                 <DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}
                                onClick={exampleRequest}>
-                    exampleRequest
+                    Запрос на сервер
                 </DefaultButton>
 
 
@@ -154,10 +152,10 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
 
             </HeroList>
             <div id={'message'} style={{
-                width: '150px',
+                width: '75%',
                 backgroundColor: '#d9d5af',
-                height: '100px',
-                margin: 'auto',
+                height: '25vh',
+                margin: '50px auto',
                 padding: '25px'
             }}></div>
 
