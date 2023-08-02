@@ -6,6 +6,7 @@ import {useAppDispatch, useAppSelector} from './store';
 import {setHeroListPayloadAC} from '../heroList-reducer';
 import {setRequestPayloadAC} from '../request-reducer';
 import {fetchJokeTC} from '../api/someExampleAPI-reducer';
+import {Configuration, OpenAIApi} from 'openai';
 
 /* global Word, require */
 
@@ -17,6 +18,13 @@ export type AppProps = {
 
 
 export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
+
+    const configuration = new Configuration({
+        apiKey: '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',
+    })
+    const openai = new OpenAIApi(configuration);
+
+
     const dispatch = useAppDispatch()
     const listItems = useAppSelector(state => state.heroList.listItems)
     const requestData = useAppSelector(state => state.request.requestData)
@@ -73,10 +81,31 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
 
 
     // При вызове диспатчим санку - делаем запрос, а ответ сохраняем в наш стейт (в Redux)
-    const exampleRequest = () => {
-        const thunk = fetchJokeTC()
-        dispatch(thunk)
-        // dispatch(fetchJokeTC())
+    const exampleRequest =async (e:any) => {
+        // const thunk = fetchJokeTC()
+        // dispatch(thunk)
+
+
+            // console.log('log requestHandler')
+            // const thunk = fetchJokeTC()
+            // dispatch(thunk)
+            // dispatch(gptTC)
+            e.preventDefault();
+            try {
+                const result = await openai.createCompletion({
+                    model: "text-davinci-003",
+                    prompt: 'Расскажи мне что0нибудь о России',
+                    temperature: 0.5,
+                    max_tokens: 4000,
+                });
+                //console.log("response", result.data.choices[0].text);
+                // setApiResponse(result.data.choices[0].text);
+            } catch (e) {
+                //console.log(e);
+                // setApiResponse("Something is going wrong, Please try again.");
+                console.log(e)
+            }
+
     }
     // При вызове вставляем полученный ответ из нашего стейта (из Redux)
     const exampleClickHandler = async () => {
