@@ -1,22 +1,22 @@
-/* 
+/*
  * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
  * See LICENSE in the project root for license information.
  */
 
- html,
- body {
-     width: 100%;
-     height: 100%;
-     margin: 0;
-     padding: 0;
- }
- 
- ul {
-     margin: 0;
-     padding: 0;
- }
- 
- .ms-welcome__header {
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+.ms-welcome__header {
     padding: 10px;
     padding-bottom: 10px;
     padding-top: 25px;
@@ -25,11 +25,11 @@
     -webkit-flex-direction: column;
     flex-direction: column;
     align-items: center;
-     background-color: #a48a8a;
-     opacity: 0.5;
- }
+    background-color: #a48a8a;
+    opacity: 0.5;
+}
 
- .ms-welcome__main {
+.ms-welcome__main {
     display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: column;
@@ -41,50 +41,64 @@
     -webkit-flex: 1 0 0;
     flex: 1 0 0;
     padding: 10px 20px;
-     background-color: #d4bce1;
- }
- 
- .ms-welcome__main > h2 {
-     width: 100%;
-     text-align: center;
- }
- 
- .ms-welcome__features {
-     list-style-type: none;
-     margin-top: 20px;
- }
- 
- .ms-welcome__features.ms-List .ms-ListItem {
-     padding-bottom: 20px;
-     display: -webkit-flex;
-     display: flex;
- }
- 
- .ms-welcome__features.ms-List .ms-ListItem > .ms-Icon {
-     margin-right: 10px;
- }
- 
- .ms-welcome__action.ms-Button--hero {
-     margin-top: 30px;
- }
- 
+    background-color: #4ca14d;
+}
+
+.ms-welcome__main > h2 {
+    width: 100%;
+    text-align: center;
+}
+
+.ms-welcome__features {
+    list-style-type: none;
+    margin-top: 20px;
+}
+
+.ms-welcome__features.ms-List .ms-ListItem {
+    padding-bottom: 20px;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.ms-welcome__features.ms-List .ms-ListItem > .ms-Icon {
+    margin-right: 10px;
+}
+
+.ms-welcome__action.ms-Button--hero {
+    margin-top: 30px;
+}
+
 .ms-Button.ms-Button--hero .ms-Button-label {
-  color: #0078d7;
+    color: #0078d7;
 }
 
 .ms-Button.ms-Button--hero:hover .ms-Button-label,
-.ms-Button.ms-Button--hero:focus .ms-Button-label{
-  color: #005a9e;
-  cursor: pointer;
+.ms-Button.ms-Button--hero:focus .ms-Button-label {
+    color: #005a9e;
+    cursor: pointer;
 }
 
 b {
     font-weight: bold;
 }
 
-.CustomButtonStyle{
+.CustomButtonStyle {
     color: #970707;
     cursor: pointer;
     width: 150px;
     font-size: 25px;
+}
+
+.myDivAddIn {
+    font-size: 16px;
+    width: 95%;
+    /*background-color: #d9d5af;*/
+    /*height: 25vh;*/
+    margin: 50px auto;
+    padding: 25px;
+}
+
+.mySpanInMyDiv{
+    background-color: #fdfd01;
+    height:  fit-content;
 }

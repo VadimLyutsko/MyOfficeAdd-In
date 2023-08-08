@@ -5,10 +5,9 @@ import Progress from '../taskpane/components/Progress';
 import {useAppDispatch, useAppSelector} from './store';
 import {setHeroListPayloadAC} from '../heroList-reducer';
 import {setRequestPayloadAC} from '../request-reducer';
-import {fetchJokeTC} from '../api/someExampleAPI-reducer';
 import {Configuration, OpenAIApi} from 'openai';
+import {gptTC} from '../api/openAI-reducer';
 
-/* global Word, require */
 
 export type AppProps = {
     title: string;
@@ -18,17 +17,10 @@ export type AppProps = {
 
 
 export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
-
-    const configuration = new Configuration({
-        apiKey: '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',
-    })
-    const openai = new OpenAIApi(configuration);
-
-
     const dispatch = useAppDispatch()
     const listItems = useAppSelector(state => state.heroList.listItems)
     const requestData = useAppSelector(state => state.request.requestData)
-    const catFact = useAppSelector(state => state.exampleCatData)
+    const openAIRequestData = useAppSelector(state => state.openAIRequestData)
 
     const InsertParagraphClick = async () => {
         return Word.run(async (context) => {
@@ -45,6 +37,7 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
             await context.sync();
         });
     };
+
     const requestClickHandler = async () => {
         return Word.run(async (context) => {
 // Ниже я выхватываю выделенные в тексте слова
@@ -65,6 +58,7 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
 //Ниже я вставляю их в нужное мне место в надстройке по Id
             function write(message) {
                 document.getElementById('message').innerText += message;
+                dispatch(gptTC(message))
             }
 
             // Беру уже задиспатченный текст из стейта (который до этого был выделен в ворде и вставляю).
@@ -73,41 +67,17 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
             // Меняю цвет, тут все ясно.
             paragraph.font.color = 'green';
             dispatch(setHeroListPayloadAC())
+
             await context.sync();
 
         });
 
     }
 
+    // const requestHandler = () => {
+    //     dispatch(gptTC())
+    // }
 
-    // При вызове диспатчим санку - делаем запрос, а ответ сохраняем в наш стейт (в Redux)
-    const exampleRequest =async (e:any) => {
-        // const thunk = fetchJokeTC()
-        // dispatch(thunk)
-
-
-            // console.log('log requestHandler')
-            // const thunk = fetchJokeTC()
-            // dispatch(thunk)
-            // dispatch(gptTC)
-            e.preventDefault();
-            try {
-                const result = await openai.createCompletion({
-                    model: "text-davinci-003",
-                    prompt: 'Расскажи мне что0нибудь о России',
-                    temperature: 0.5,
-                    max_tokens: 4000,
-                });
-                //console.log("response", result.data.choices[0].text);
-                // setApiResponse(result.data.choices[0].text);
-            } catch (e) {
-                //console.log(e);
-                // setApiResponse("Something is going wrong, Please try again.");
-                console.log(e)
-            }
-
-    }
-    // При вызове вставляем полученный ответ из нашего стейта (из Redux)
     const exampleClickHandler = async () => {
         return Word.run(async (context) => {
             /**
@@ -115,7 +85,7 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
              */
 
                 // insert a paragraph at the end of the document.
-            const paragraph = context.document.body.insertParagraph(catFact.fact, Word.InsertLocation.start);
+            const paragraph = context.document.body.insertParagraph(openAIRequestData.choices[0].text, Word.InsertLocation.start);
 
             // change the paragraph color to blue.
             paragraph.font.color = 'cadetblue';
@@ -142,51 +112,73 @@ export const MyApp: React.FC<AppProps> = ({title, isOfficeInitialized}) => {
             <HeroList message="Self-made Office add-in" items={listItems}>
 
                 {/*<p className="ms-font-l">*/}
-                {/*    Click <b>Insert Paragraph</b> to insert it*/}
+                {/*    Нажми <b>Запрос на сервер</b> чтобы послать запрос*/}
                 {/*</p>*/}
-
-                {/*<DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}*/}
-                {/*               onClick={InsertParagraphClick}>*/}
-                {/*    Проверить работу Redux*/}
-                {/*</DefaultButton>*/}
-
-                {/*<p className="ms-font-l">*/}
-                {/*    Нажми <b>ухваить</b> чтобы выхватить текст из документа*/}
-                {/*</p>*/}
-
-                {/*<DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}*/}
-                {/*               onClick={requestClickHandler}>*/}
-                {/*    Ухваить*/}
-                {/*</DefaultButton>*/}
-
-
-                <p className="ms-font-l">
-                    Нажми <b>Запрос на сервер</b> чтобы послать запрос
-                </p>
 
                 <DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}
-                               onClick={exampleRequest}>
-                    Запрос на сервер
+                               onClick={requestClickHandler}>
+                    Check text
                 </DefaultButton>
 
 
-                <p className="ms-font-l">
-                    Нажми <b>Вставить ответ</b> чтобы вставить ответ на запрос
+                <p className="ms-font-little">
+                    {/*Нажми */}
+                    {/*<b>Вставить исправленный вариант</b>*/}
+                    Вставить исправленный вариант
+                    {/*чтобы вставить ответ на запрос*/}
                 </p>
 
                 <DefaultButton className="ms-welcome__action" iconProps={{iconName: 'ChevronRight'}}
                                onClick={exampleClickHandler}>
-                    Вставить ответ
+                    Вставить исправленный вариант
                 </DefaultButton>
 
             </HeroList>
-            <div id={'message'} style={{
-                width: '75%',
-                backgroundColor: '#d9d5af',
-                height: '25vh',
-                margin: '50px auto',
-                padding: '25px'
-            }}></div>
+            <div className="myDivAddIn" id={'message'}>
+                {/*<p> У околицы села, весь в кучевых облаках и отраженном камыше, лениво курился пруд. Ярко зелеными*/}
+                {/*    клубами поднимались из земли ветлы. Одна ветла низпадала в пруд и теперь по ней можно было ходить. В*/}
+                {/*    большом пруде она потерялась, утратила свое горделивое величие, её хватило только на то, что бы*/}
+                {/*    достать верхушкой до того места, где кончались прибрежные камыши.*/}
+                {/*</p>*/}
+                {/*<p> Прочные досчатые мостики с перильцами уводили от берега на глубину при которой не видно дна, хотя*/}
+                {/*    мне*/}
+                {/*    никогда не приходилось встречать пруда, со столь чистой прозрачной водой. Это не мешало впрочем*/}
+                {/*    водится*/}
+                {/*    тут всякой живности. </p>*/}
+
+                <p>Вот пробирается, ползет по подводному стеблю ногатое <span className="mySpanInMyDiv">,</span> усатое
+                    существо, похожее на макрицу. Это
+                    водяной
+                    ослик. А вот причудливо, завитушками вниз, скользит по поверхности воды <span
+                        className="mySpanInMyDiv">улитка</span> прудовик. Для неё
+                    поверхность воды <span className="mySpanInMyDiv">-</span> потолок, она и движется по нему, как бы
+                    вниз головой. Отделившись от черной глубины <span className="mySpanInMyDiv">,</span>
+                    несется, как стрела, снарядик. Это ничто иное, как тигр подводных джунглей - жук-пловунец <span
+                        className="mySpanInMyDiv">-</span>. Он
+                    бросается
+                    на рыбу <span className="mySpanInMyDiv">,</span> гигантскую по сравнению с ним, и подчас одолевает
+                    её. А если и не одолеет один, то запах
+                    крови
+                    <span className="mySpanInMyDiv">соберет</span> армию собратьев, и тогда уж рыбе быть расстерзанной.
+                </p>
+
+                <p>Словно шарик ртути, пролитой на стекло, <span className="mySpanInMyDiv">изумрудно</span>-черные,
+                    катаются и юлят вертячки. Как <span className="mySpanInMyDiv">циркачи</span> на
+                    резиновой сетке, пляшут на упругой поверхности воды водомерки. </p>
+
+                <p> К пруду подошла с карзиной женщина и стала поласкать белье невдалеке от нас. Она рассказала, что
+                    пруд
+                    совсем, было, зарос, но в прошлом году его эскаватором рассчистили. «Омолодился пруд-то, наш», -
+                    сказала
+                    женщина. </p>
+
+                <p>Две девочки и мальченка-бутуз, все трое русоголовые, синеглазые забрались на упавшую ветлу, и затеяли
+                    там игру. В последствие мальченка-бутуз свалился в воду, после чего ему было приказанно сидеть на
+                    берегу. </p>
+
+                <p> День начался. Мы уложили вещи, и двинулись в глубь леса. </p>
+
+            </div>
 
         </div>
     );

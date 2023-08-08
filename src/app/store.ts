@@ -3,7 +3,7 @@ import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import thunkMiddleware, {ThunkDispatch} from 'redux-thunk'
 import {heroListReducer} from '../heroList-reducer';
 import {requestReducer} from '../request-reducer';
-import {exampleCatReducer} from '../api/someExampleAPI-reducer';
+import {GPTReducer} from '../api/openAI-reducer';
 
 
 // объединяя reducer-ы с помощью combineReducers,
@@ -11,7 +11,7 @@ import {exampleCatReducer} from '../api/someExampleAPI-reducer';
 const rootReducer = combineReducers({
     heroList: heroListReducer,
     request:requestReducer,
-    exampleCatData:exampleCatReducer
+    openAIRequestData:GPTReducer
 
 })
 // непосредственно создаём store
